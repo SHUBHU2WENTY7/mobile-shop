@@ -75,247 +75,294 @@
         }
     </script>
 <style>
+        /* Base styles */
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
+        
+        /* Apple-level animations & glass morphism */
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
-        .text-gradient-gold {
-            background: linear-gradient(135deg, #7A1F1F 0%, #D4AF37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        /* Smooth reveal animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        .hero-gradient {
-            background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.08), transparent 40%),
-                        radial-gradient(circle at bottom left, rgba(122, 31, 31, 0.05), transparent 40%);
+        .fade-up.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
-        /* ----- CINEMATIC LOADER STYLES (ENHANCED) ----- */
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .fade-left.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .fade-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .fade-right.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .scale-up {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .scale-up.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Hover effects for cards */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* Video Hero */
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 100%);
+            z-index: 1;
+        }
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        /* Apple-style loader */
         #loader {
             position: fixed;
             inset: 0;
             z-index: 10000;
-            background: #0a0806;
-            background: radial-gradient(ellipse at 30% 40%, #1e1a14, #050403);
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 1s ease;
-            overflow: hidden;
-            font-family: 'Playfair Display', serif;
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.8s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
         #loader.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
-        /* animated particles canvas */
-        #loader-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .loader-content {
-            position: relative;
-            z-index: 10;
+        .loader-container {
             text-align: center;
-            max-width: 700px;
+            max-width: 400px;
             width: 90%;
-            padding: 2rem;
-            animation: fadeInUp 0.8s ease-out;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .loader-logo {
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #f3e7c9, #d4af37, #b87c2e);
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #7A1F1F, #D4AF37);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-        }
-        .loader-tagline {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: rgba(212, 175, 55, 0.9);
-            border-top: 1px solid rgba(212, 175, 55, 0.3);
-            display: inline-block;
-            padding-top: 0.8rem;
             margin-bottom: 2rem;
         }
-        .story-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #e6d9bf;
-            max-width: 500px;
-            margin: 1rem auto 2rem;
-            font-weight: 300;
-            opacity: 0;
-            animation: fadeText 0.6s forwards 0.4s;
-        }
-        @keyframes fadeText {
-            to { opacity: 1; transform: translateY(0); }
-            from { opacity: 0; transform: translateY(10px); }
-        }
-        .story-text span {
-            font-weight: 600;
-            color: #d4af37;
-        }
-        .cinematic-progress {
-            width: 240px;
-            height: 4px;
-            background: rgba(212, 175, 55, 0.2);
-            border-radius: 4px;
-            margin: 2rem auto 1rem;
+        .loader-progress {
+            width: 100%;
+            height: 2px;
+            background: #e5e5e5;
+            border-radius: 2px;
             overflow: hidden;
-            position: relative;
-            box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+            margin: 1rem 0;
         }
-        .progress-fill {
+        .loader-progress-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #d4af37, #f3da7a, #d4af37);
-            border-radius: 4px;
-            transition: width 0.08s linear;
-            box-shadow: 0 0 12px #d4af37;
+            background: linear-gradient(90deg, #7A1F1F, #D4AF37);
+            transition: width 0.1s linear;
         }
         .loader-percent {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            color: #d4af37;
-            letter-spacing: 1px;
+            color: #6b6b6b;
             margin-top: 0.5rem;
         }
-        .glow-ring {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 1.5rem;
+        
+        /* Additional animations */
+        @keyframes subtlePulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        .animate-subtle {
+            animation: subtlePulse 2s infinite alternate;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #7A1F1F;
+            border-radius: 4px;
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Number counters */
+        .trust-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #7a1f1f;
+            margin-bottom: 4px;
+        }
+        .trust-timeline {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .trust-timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #7A1F1F, #D4AF37);
+        }
+        .timeline-item {
+            display: flex;
+            gap: 24px;
+            padding: 24px 0;
             position: relative;
         }
-        .glow-ring svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+        .timeline-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7A1F1F, #D4AF37);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 1;
+            box-shadow: 0 2px 15px rgba(122,31,31,0.2);
         }
-        .ring-bg {
-            stroke: rgba(212, 175, 55, 0.2);
-            stroke-width: 2;
-            fill: none;
+        .timeline-dot .material-symbols-outlined {
+            color: white;
+            font-size: 24px;
         }
-        .ring-fill {
-            stroke: url(#goldGradientLoader);
-            stroke-width: 2.5;
-            fill: none;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.1s linear;
-            filter: drop-shadow(0 0 3px gold);
+        
+        /* Contact icons */
+        .contact-block-icon, .stat-card-icon, .location-card-icon {
+            background: linear-gradient(135deg, rgba(122,31,31,0.08), rgba(212,175,55,0.08));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
         }
-        .ornament-line {
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #d4af37, #f3da7a, #d4af37, transparent);
-            margin: 1rem auto;
+        .call-btn-primary {
+            background: linear-gradient(135deg, #7A1F1F, #5C1616);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(122,31,31,0.2);
         }
-        .loader-footer {
-            font-size: 0.7rem;
-            color: #aa9f82;
-            letter-spacing: 1px;
-            margin-top: 2rem;
+        .call-btn-wa {
+            background: #25D366;
+            color: #fff;
         }
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 0px rgba(212, 175, 55, 0); }
-            100% { text-shadow: 0 0 12px rgba(212, 175, 55, 0.8); }
-        }
-        .year-glow {
-            animation: pulseGlow 1.2s ease-in-out infinite alternate;
-        }
-        #scroll-progress {
-            position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
-            background: linear-gradient(90deg, #7A1F1F, #D4AF37);
-            width: 0; transition: width 0.1s linear;
-        }
-        .trust-number { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 800; color: #7a1f1f; margin-bottom: 4px; }
-        .trust-timeline { position: relative; max-width: 700px; margin: 0 auto; }
-        .trust-timeline::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #7A1F1F, #D4AF37); }
-        .timeline-item { display: flex; gap: 24px; padding: 24px 0; position: relative; }
-        .timeline-dot { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #7A1F1F, #D4AF37); display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 1; box-shadow: 0 2px 15px rgba(122,31,31,0.2); }
-        .timeline-dot .material-symbols-outlined { color: white; font-size: 24px; }
-        .reveal, .reveal-left, .reveal-right, .reveal-scale { opacity: 0; transition: opacity 0.7s ease, transform 0.7s ease; }
-        .reveal { transform: translateY(40px); }
-        .reveal-left { transform: translateX(-40px); }
-        .reveal-right { transform: translateX(40px); }
-        .reveal-scale { transform: scale(0.92); }
-        .reveal.active, .reveal-left.active, .reveal-right.active, .reveal-scale.active { opacity: 1; transform: translate(0) scale(1); }
-        .gold-divider { width: 60px; height: 3px; background: linear-gradient(90deg, #7A1F1F, #D4AF37); border-radius: 3px; margin: 0 auto 16px; }
-        .gold-divider-left { margin: 0 0 16px 0; }
-        .contact-block-icon, .stat-card-icon, .location-card-icon { background: linear-gradient(135deg, rgba(122,31,31,0.08), rgba(212,175,55,0.08)); border-radius: 12px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0; }
-        .call-btn-primary { background: linear-gradient(135deg, #7A1F1F, #5C1616); color: #fff; box-shadow: 0 2px 12px rgba(122,31,31,0.2); }
-        .call-btn-wa { background: #25D366; color: #fff; }
         .whatsapp-float {
-            position: fixed; bottom: 28px; right: 28px; z-index: 900;
-            width: 56px; height: 56px; border-radius: 50%;
-            background: #25D366; display: flex; align-items: center; justify-content: center;
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 900;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 4px 20px rgba(37,211,102,0.35);
-            transition: transform 0.3s ease; text-decoration: none;
+            transition: transform 0.3s ease;
+            text-decoration: none;
             animation: wa-bounce 2s infinite;
         }
-        .whatsapp-float:hover { transform: scale(1.1); }
-        @keyframes wa-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        @keyframes wa-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            z-index: 9999;
+            background: linear-gradient(90deg, #7A1F1F, #D4AF37);
+            width: 0;
+            transition: width 0.1s linear;
+        }
     </style>
-<style> body { min-height: max(884px, 100dvh); } </style>
 </head>
 <body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
 
-<!-- CINEMATIC LOADER - ENHANCED MODERN STORYTELLING -->
+<!-- Apple-style Luxury Loader -->
 <div id="loader">
-    <canvas id="loader-canvas"></canvas>
-    <div class="loader-content">
-        <div class="glow-ring">
-            <svg viewBox="0 0 100 100">
-                <defs><linearGradient id="goldGradientLoader" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7A1F1F"/><stop offset="100%" stop-color="#D4AF37"/></linearGradient></defs>
-                <circle class="ring-bg" cx="50" cy="50" r="44" stroke="currentColor" fill="none" />
-                <circle class="ring-fill" cx="50" cy="50" r="44" stroke="url(#goldGradientLoader)" fill="none" stroke-dasharray="276.46" stroke-dashoffset="276.46" transform="rotate(-90 50 50)" />
-            </svg>
-        </div>
-        <div class="loader-logo">RAJPUT MOBILE CARE</div>
-        <div class="ornament-line"></div>
-        <div class="loader-tagline">EST. 2005 • THE ATELIER OF REPAIR</div>
-        <div class="story-text">
-            <span class="year-glow">19+ years</span> of precision, trust, and craftsmanship.<br>
-            Where every device tells a story of revival.
-        </div>
-        <div class="cinematic-progress">
-            <div class="progress-fill" id="loaderProgressFill"></div>
+    <div class="loader-container">
+        <div class="loader-logo">Rajput Mobile Care</div>
+        <div class="loader-progress">
+            <div class="loader-progress-fill" id="loaderProgressFill"></div>
         </div>
         <div class="loader-percent" id="loaderPercent">0%</div>
-        <div class="loader-footer">✦ Sillod's most trusted sanctuary for your devices ✦</div>
     </div>
 </div>
 
 <div id="scroll-progress"></div>
 
-<!-- TopAppBar (Original + Mobile menu integration) -->
-<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-md shadow-sm flex justify-between items-center px-6 py-4">
+<!-- TopAppBar with glass effect -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm flex justify-between items-center px-6 py-4 transition-all duration-300">
     <div class="flex items-center gap-3">
-        <span class="material-symbols-outlined text-stone-600 cursor-pointer" id="menuToggleBtn">menu</span>
+        <span class="material-symbols-outlined text-stone-600 cursor-pointer md:hidden" id="menuToggleBtn">menu</span>
         <span class="text-xl md:text-2xl font-serif italic text-red-900 tracking-tight">Rajput Mobile Care</span>
     </div>
     <div class="hidden md:flex items-center gap-8 font-sans uppercase tracking-widest text-[11px] text-stone-600">
-        <a class="text-yellow-600 font-semibold transition-colors duration-300" href="#">Home</a>
+        <a class="text-yellow-600 font-semibold transition-colors duration-300 hover:text-primary" href="#">Home</a>
         <a class="hover:text-yellow-600 transition-colors duration-300" href="#services">Services</a>
         <a class="hover:text-yellow-600 transition-colors duration-300" href="#accessories">Accessories</a>
         <a class="hover:text-yellow-600 transition-colors duration-300" href="#trust">Why Us</a>
@@ -323,6 +370,7 @@
     </div>
     <span class="material-symbols-outlined text-stone-600 hidden md:block">account_circle</span>
 </nav>
+
 <!-- Mobile slide menu -->
 <div class="mobile-menu fixed inset-0 bg-white/95 backdrop-blur-lg z-50 flex flex-col items-center justify-center gap-6 transition-all duration-300 opacity-0 pointer-events-none" id="mobileMenuPanel">
     <button class="absolute top-6 right-6 text-2xl text-stone-800" id="closeMobileMenu">&times;</button>
@@ -334,31 +382,34 @@
     <a href="tel:9637775777" class="mt-4 px-8 py-3 bg-primary text-white rounded-full">Call Now</a>
 </div>
 
-<!-- Cinematic Hero Section with Three.js Canvas (unchanged) -->
-<header class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 hero-gradient" id="hero">
-    <canvas id="hero-canvas" class="absolute inset-0 w-full h-full z-0"></canvas>
-    <div class="absolute inset-0 bg-gradient-to-b from-white/0 via-white/40 to-surface z-1"></div>
+<!-- Cinematic Hero Section with Continuous Video Background -->
+<header id="hero">
+    <video class="hero-video-bg" autoplay loop muted playsinline>
+        <source src="rajput.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="hero-overlay"></div>
     <div class="container mx-auto px-6 relative z-10 text-center max-w-5xl">
-        <span class="inline-block px-4 py-1 mb-6 border border-outline-variant/30 rounded-full text-[10px] uppercase tracking-[0.3em] text-secondary font-semibold">
+        <span class="inline-block px-4 py-1 mb-6 border border-white/30 rounded-full text-[10px] uppercase tracking-[0.3em] text-white font-semibold backdrop-blur-sm">
             Est. 2005 • The Atelier of Repair
         </span>
-        <h1 class="text-5xl md:text-8xl font-serif text-primary leading-[1.1] tracking-tight mb-8">
+        <h1 class="text-5xl md:text-8xl font-serif text-white leading-[1.1] tracking-tight mb-8 drop-shadow-lg fade-up">
             Trusted Mobile Repair.<br/>
             <span class="italic font-light">Built on 19+ Years of Excellence.</span>
         </h1>
-        <p class="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-            From complex motherboard repairs to everyday fixes — Rajput Mobile Care is Sillod’s most trusted service hub.
+        <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-12 font-light leading-relaxed drop-shadow fade-up" style="animation-delay: 0.2s;">
+            From complex motherboard repairs to everyday fixes — Rajput Mobile Care is Sillod's most trusted service hub.
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 fade-up" style="animation-delay: 0.4s;">
             <a class="group relative px-10 py-4 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg shadow-primary/10" href="#services">
                 <span class="relative z-10 font-medium">Get Repair Service</span>
             </a>
-            <a class="px-10 py-4 border border-outline-variant text-primary rounded-xl font-medium transition-all duration-300 hover:bg-surface-container-low active:scale-95" href="tel:9637775777">Call Now</a>
+            <a class="px-10 py-4 border border-white/50 text-white rounded-xl font-medium transition-all duration-300 hover:bg-white/10 active:scale-95" href="tel:9637775777">Call Now</a>
         </div>
-        <div class="hero-info flex justify-center gap-8 mt-12 text-sm">
-            <div><span class="block text-xs uppercase text-secondary">Phone</span><a href="tel:9637775777" class="font-serif text-primary">9637775777</a></div>
-            <div><span class="block text-xs uppercase text-secondary">Alt</span><a href="tel:8237775777" class="font-serif text-primary">8237775777</a></div>
-            <div><span class="block text-xs uppercase text-secondary">Hours</span><span class="font-serif">9 AM - 8 PM</span></div>
+        <div class="hero-info flex justify-center gap-8 mt-12 text-sm text-white fade-up" style="animation-delay: 0.6s;">
+            <div><span class="block text-xs uppercase text-white/70">Phone</span><a href="tel:9637775777" class="font-serif text-white hover:underline">9637775777</a></div>
+            <div><span class="block text-xs uppercase text-white/70">Alt</span><a href="tel:8237775777" class="font-serif text-white hover:underline">8237775777</a></div>
+            <div><span class="block text-xs uppercase text-white/70">Hours</span><span class="font-serif">9 AM - 8 PM</span></div>
         </div>
     </div>
 </header>
@@ -367,48 +418,52 @@
 <section class="py-24 bg-surface-container-low/50">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-            <div class="space-y-2"><p class="text-4xl md:text-5xl font-serif text-primary">19+</p><p class="text-xs uppercase tracking-widest text-secondary font-bold">Years Experience</p></div>
-            <div class="space-y-2"><p class="text-4xl md:text-5xl font-serif text-primary">10k+</p><p class="text-xs uppercase tracking-widest text-secondary font-bold">Devices Repaired</p></div>
-            <div class="space-y-2"><p class="text-4xl md:text-5xl font-serif text-primary">Trusted</p><p class="text-xs uppercase tracking-widest text-secondary font-bold">In Sillod District</p></div>
+            <div class="space-y-2 scale-up"><p class="text-4xl md:text-5xl font-serif text-primary">19+</p><p class="text-xs uppercase tracking-widest text-secondary font-bold">Years Experience</p></div>
+            <div class="space-y-2 scale-up"><p class="text-4xl md:text-5xl font-serif text-primary">10k+</p><p class="text-xs uppercase tracking-widest text-secondary font-bold">Devices Repaired</p></div>
+            <div class="space-y-2 scale-up"><p class="text-4xl md:text-5xl font-serif text-primary">Trusted</p><p class="text-xs uppercase tracking-widest text-secondary font-bold">In Sillod District</p></div>
         </div>
     </div>
 </section>
 
-<!-- Services Section (original) -->
+<!-- Services Section -->
 <section class="py-32 bg-surface" id="services">
     <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8"><div class="max-w-xl"><h2 class="text-4xl md:text-6xl font-serif text-primary-container mb-6 leading-tight">Expert Solutions for Every Device</h2><div class="h-px w-24 bg-gradient-to-r from-secondary to-transparent"></div></div><p class="text-on-surface-variant md:max-w-xs font-light">Precision engineering meet artisanal care. We treat every repair as a masterstroke.</p></div>
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+            <div class="max-w-xl fade-left"><h2 class="text-4xl md:text-6xl font-serif text-primary-container mb-6 leading-tight">Expert Solutions for Every Device</h2><div class="h-px w-24 bg-gradient-to-r from-secondary to-transparent"></div></div>
+            <p class="text-on-surface-variant md:max-w-xs font-light fade-right">Precision engineering meet artisanal care. We treat every repair as a masterstroke.</p>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-            <div class="md:col-span-8 group relative overflow-hidden rounded-3xl bg-surface-container-lowest p-10 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5"><div class="relative z-10"><span class="material-symbols-outlined text-5xl text-secondary mb-8">developer_board</span><h3 class="text-3xl font-serif text-primary mb-4">Motherboard Repair</h3><p class="text-on-surface-variant max-w-md font-light">Advanced micro-soldering and IC replacement for water damage or dead devices.</p></div><div class="absolute right-0 bottom-0 w-1/2 opacity-10 group-hover:scale-110 transition-transform duration-700"><img class="w-full h-full object-cover rounded-tl-3xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlPLx5A5g8hjasKdLRvsSuxan-v8JiKG9f4dSnb4ARVShRK1CwfMxBiOl91SMb4nfACGegWr0eWdKJ53YleNRPNNJvaJBv0Bk_Mg9_uswfjT6G9gsem_QwboYCQA9eNXD3jsOeVNnWo5IcnKv90Fo1aDeyejEpjHH0GKrl1xjC1z-pomrvNn0ABDFEHEPjFoMpJ8GfwBg9odoxZ-5n8dfbRVtdI3uwkCQOLjuUDAiuHdGclhtX0_QhsJqg4MqNaBGIdI2jsdldhow"/></div></div>
-            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl"><span class="material-symbols-outlined text-4xl text-primary mb-6">screenshot</span><h3 class="text-xl font-bold">Display & Touch</h3><p class="text-sm text-on-surface-variant">Premium quality original displays with 100% color accuracy.</p></div>
-            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl"><span class="material-symbols-outlined text-4xl text-primary mb-6">battery_charging_full</span><h3 class="text-xl font-bold">Battery Replacement</h3><p class="text-sm text-on-surface-variant">Certified high-capacity batteries for all-day performance.</p></div>
-            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl"><span class="material-symbols-outlined text-4xl text-primary mb-6">settings_suggest</span><h3 class="text-xl font-bold">Software & Unlock</h3><p class="text-sm text-on-surface-variant">OS troubleshooting, data recovery, official unlocking.</p></div>
-            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl"><span class="material-symbols-outlined text-4xl text-primary mb-6">photo_camera</span><h3 class="text-xl font-bold">Camera & Sensors</h3><p class="text-sm text-on-surface-variant">Lens replacement and sensor calibration.</p></div>
+            <div class="md:col-span-8 group relative overflow-hidden rounded-3xl bg-surface-container-lowest p-10 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover-lift"><div class="relative z-10"><span class="material-symbols-outlined text-5xl text-secondary mb-8">developer_board</span><h3 class="text-3xl font-serif text-primary mb-4">Motherboard Repair</h3><p class="text-on-surface-variant max-w-md font-light">Advanced micro-soldering and IC replacement for water damage or dead devices.</p></div><div class="absolute right-0 bottom-0 w-1/2 opacity-10 group-hover:scale-110 transition-transform duration-700"><img class="w-full h-full object-cover rounded-tl-3xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlPLx5A5g8hjasKdLRvsSuxan-v8JiKG9f4dSnb4ARVShRK1CwfMxBiOl91SMb4nfACGegWr0eWdKJ53YleNRPNNJvaJBv0Bk_Mg9_uswfjT6G9gsem_QwboYCQA9eNXD3jsOeVNnWo5IcnKv90Fo1aDeyejEpjHH0GKrl1xjC1z-pomrvNn0ABDFEHEPjFoMpJ8GfwBg9odoxZ-5n8dfbRVtdI3uwkCQOLjuUDAiuHdGclhtX0_QhsJqg4MqNaBGIdI2jsdldhow"/></div></div>
+            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl hover-lift"><span class="material-symbols-outlined text-4xl text-primary mb-6">screenshot</span><h3 class="text-xl font-bold">Display & Touch</h3><p class="text-sm text-on-surface-variant">Premium quality original displays with 100% color accuracy.</p></div>
+            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl hover-lift"><span class="material-symbols-outlined text-4xl text-primary mb-6">battery_charging_full</span><h3 class="text-xl font-bold">Battery Replacement</h3><p class="text-sm text-on-surface-variant">Certified high-capacity batteries for all-day performance.</p></div>
+            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl hover-lift"><span class="material-symbols-outlined text-4xl text-primary mb-6">settings_suggest</span><h3 class="text-xl font-bold">Software & Unlock</h3><p class="text-sm text-on-surface-variant">OS troubleshooting, data recovery, official unlocking.</p></div>
+            <div class="md:col-span-4 group bg-surface-container p-8 rounded-3xl hover-lift"><span class="material-symbols-outlined text-4xl text-primary mb-6">photo_camera</span><h3 class="text-xl font-bold">Camera & Sensors</h3><p class="text-sm text-on-surface-variant">Lens replacement and sensor calibration.</p></div>
         </div>
     </div>
 </section>
 
 <!-- Accessories Section -->
-<section class="py-32 bg-surface-container-low overflow-hidden" id="accessories"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-20"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em] mb-4 block">The Collection</span><h2 class="text-4xl md:text-5xl font-serif text-primary-container mb-6">Premium Accessories</h2><p class="text-on-surface-variant font-light">Handpicked enhancements for your digital lifestyle.</p></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8"> <div class="group cursor-pointer"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6oFqmG9vgrLxAWEsFfI8bwd-e7xkLR7z5oEI1d8smmgcep_oZsat9RCiSvrbj3l6N7BZnj1zI5fNJxbtxfFs4K4YQUtqSxI-SHXgedUVPqnj2mxy3zpeOvocFvd16AqbRJ0gzBndVft5G582P7pZ4QotQxU6WE983iAo1BKNKMW4DuXSpzmsAcCcab33ZxGBRblRAjD-L-yssVQChVCmLkRatXmkHJIoiu_-Oy5HtZGy3WCvOr62OEoreODPHFEixbxOtfBCarIo"/></div><h4 class="text-lg font-medium text-primary mb-1">Designer Covers</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">Premium Leather & Silicone</p></div>
-    <div class="group cursor-pointer"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAnXYL8-egR9AqKJHh7mPAymAulbB35J1yApDqCnW-y4OWwz3_QerMyohdFIw4Lo4FwJpkVl6pLqVKEESeLwKGNc1AHnsD7Ee-Pk4VUKT7UiD5-k2PxOaXId3J2EOxEgJiqXLJ4BrXMZzAODJplbLJVzjptsKGXvt9yrRSugv9OsfM3vv2jAOdGfPNvH8OzCKV2RZFP7joAJywBQzJRpktjkIEBg4xhcJb3gKRmIHBFjExeD01--PFzb7yXbm_jQwWwakKau81f2M"/></div><h4 class="text-lg font-medium text-primary mb-1">Power Solutions</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">Fast Chargers & Cables</p></div>
-    <div class="group cursor-pointer"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuG6ffNSpXWvP-oD0yyzjEmDWZKU7UdF2J_vwxwI9lzrfJ4My68_ggqO14fQuqlYqvuj4MLuCKizBYQeyZI1kt5JZ2TiF7QxQBq68KmaNH1-ry8z1Lyz2kRA-nfZW8u3YAL57uny8hi9PiY_Yvj4O1-h1b75LaJUaQjahx7Gku6JlyuZqp4rNmRHNLWwobxf8pwZb4ZlDw9Z_W1kd0hxncBfgDqKhGRahpo5JPvJl6T3kKxI6GLSlHrs6Dv8RxlKOSnFVnmpKJESs"/></div><h4 class="text-lg font-medium text-primary mb-1">Audio Atelier</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">Hi-Fi Earphones & Speakers</p></div>
-    <div class="group cursor-pointer"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVxOIHgvFg0bOq0jRuW2X_3EQI4kTct2dcUmHFMCB0ZsVrg4cnSqsGIOICS9ep6hMXlsQIdldZUExXuY0W9OILxYCh1GXWN7_Kf4kAUfP3cy_wOVPGmrhbPCm-vB_qc7sGRVxWS8ZDRERIx_J3nuzfhFCXgoFZao1Hi5qrILe0Oo1t22eiyww2Vxa_ycIvQ6PIyn7RoSRXMdph-LIbwzJg40puYk9kqXGhDBr51eI5maWWWRG3Se64NETQEI2AgWnQphEIC__1BIk"/></div><h4 class="text-lg font-medium text-primary mb-1">Optic Armor</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">9D Tempered Glass Protection</p></div>
+<section class="py-32 bg-surface-container-low overflow-hidden" id="accessories"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-20"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em] mb-4 block">The Collection</span><h2 class="text-4xl md:text-5xl font-serif text-primary-container mb-6">Premium Accessories</h2><p class="text-on-surface-variant font-light">Handpicked enhancements for your digital lifestyle.</p></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8"> 
+    <div class="group cursor-pointer hover-lift"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6oFqmG9vgrLxAWEsFfI8bwd-e7xkLR7z5oEI1d8smmgcep_oZsat9RCiSvrbj3l6N7BZnj1zI5fNJxbtxfFs4K4YQUtqSxI-SHXgedUVPqnj2mxy3zpeOvocFvd16AqbRJ0gzBndVft5G582P7pZ4QotQxU6WE983iAo1BKNKMW4DuXSpzmsAcCcab33ZxGBRblRAjD-L-yssVQChVCmLkRatXmkHJIoiu_-Oy5HtZGy3WCvOr62OEoreODPHFEixbxOtfBCarIo"/></div><h4 class="text-lg font-medium text-primary mb-1">Designer Covers</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">Premium Leather & Silicone</p></div>
+    <div class="group cursor-pointer hover-lift"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAnXYL8-egR9AqKJHh7mPAymAulbB35J1yApDqCnW-y4OWwz3_QerMyohdFIw4Lo4FwJpkVl6pLqVKEESeLwKGNc1AHnsD7Ee-Pk4VUKT7UiD5-k2PxOaXId3J2EOxEgJiqXLJ4BrXMZzAODJplbLJVzjptsKGXvt9yrRSugv9OsfM3vv2jAOdGfPNvH8OzCKV2RZFP7joAJywBQzJRpktjkIEBg4xhcJb3gKRmIHBFjExeD01--PFzb7yXbm_jQwWwakKau81f2M"/></div><h4 class="text-lg font-medium text-primary mb-1">Power Solutions</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">Fast Chargers & Cables</p></div>
+    <div class="group cursor-pointer hover-lift"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuG6ffNSpXWvP-oD0yyzjEmDWZKU7UdF2J_vwxwI9lzrfJ4My68_ggqO14fQuqlYqvuj4MLuCKizBYQeyZI1kt5JZ2TiF7QxQBq68KmaNH1-ry8z1Lyz2kRA-nfZW8u3YAL57uny8hi9PiY_Yvj4O1-h1b75LaJUaQjahx7Gku6JlyuZqp4rNmRHNLWwobxf8pwZb4ZlDw9Z_W1kd0hxncBfgDqKhGRahpo5JPvJl6T3kKxI6GLSlHrs6Dv8RxlKOSnFVnmpKJESs"/></div><h4 class="text-lg font-medium text-primary mb-1">Audio Atelier</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">Hi-Fi Earphones & Speakers</p></div>
+    <div class="group cursor-pointer hover-lift"><div class="aspect-[4/5] bg-surface-container-lowest rounded-2xl overflow-hidden mb-6 relative"><img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVxOIHgvFg0bOq0jRuW2X_3EQI4kTct2dcUmHFMCB0ZsVrg4cnSqsGIOICS9ep6hMXlsQIdldZUExXuY0W9OILxYCh1GXWN7_Kf4kAUfP3cy_wOVPGmrhbPCm-vB_qc7sGRVxWS8ZDRERIx_J3nuzfhFCXgoFZao1Hi5qrILe0Oo1t22eiyww2Vxa_ycIvQ6PIyn7RoSRXMdph-LIbwzJg40puYk9kqXGhDBr51eI5maWWWRG3Se64NETQEI2AgWnQphEIC__1BIk"/></div><h4 class="text-lg font-medium text-primary mb-1">Optic Armor</h4><p class="text-xs text-secondary font-bold uppercase tracking-widest">9D Tempered Glass Protection</p></div>
 </div></div></section>
 
-<!-- Original Stationery Section (preserved) -->
-<section class="py-32 bg-surface" id="stationery-original"><div class="container mx-auto px-6"><div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"><div class="order-2 lg:order-1"><div class="relative inline-block mb-8"><h2 class="text-4xl md:text-5xl font-serif text-primary-container relative z-10">The Stationery Studio</h2><div class="absolute -bottom-2 -right-4 w-full h-4 bg-secondary-container/20 -rotate-1"></div></div><p class="text-lg text-on-surface-variant font-light mb-8 leading-relaxed">In the heart of Sillod, we bridge the gap between digital precision and the timeless feel of paper.</p><div class="space-y-6"><div class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary pt-1">menu_book</span><div><p class="font-bold text-primary">Academic Excellence</p><p class="text-sm text-on-surface-variant">School & College textbooks, premium notebooks.</p></div></div><div class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary pt-1">edit_note</span><div><p class="font-bold text-primary">Executive Supplies</p><p class="text-sm text-on-surface-variant">Fine writing instruments, planners, office essentials.</p></div></div></div></div><div class="order-1 lg:order-2 grid grid-cols-2 gap-4"><div class="space-y-4 pt-12"><img class="rounded-2xl w-full h-64 object-cover shadow-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAspeDwz7FcRmdUhHAkynehlx0LRIxkxybt0UAQrFxuHWVZCQP7rCP3dC5BIJ_TBz2OnbHgWgVWNB86G6Fc5yD6XCyZkEgq8_CKLDaP5l8X44sT2ztZBhLxzqXtWCRA29V76qC6NLhDY8IfIDC46uzJZF063wPw08HPJrzqwIEi53Kp81vhikGcLQxSMoQ5Yt8HlwVuaiJq_PvR6YHPY4tA1DzaLPO__KBKkGMYUEdvwDTQVTfcR3ny2CMEYg6UD-eVP5GBKJjkgyI"/><img class="rounded-2xl w-full h-48 object-cover shadow-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjTDHckXOckXgLNGHlpKnNo3Ss9fAUANeu4Tdcwd5-7AEqgPDrtHHsskwK4C1gSYRC5u269zqzpCwCZfeqyZpMjqiN2_bPqhjIqhYymy1KQV_K7NO5jiU-35oBT3Y_WBF9uxoBzHhaUP803fm_lCK38SPBfaH4HtmavYNlbzlsrlOPxEh2S_NszNYoINeWPyXIxnsOs6nFQ37UWM7lCHBZfu-OdJyecgPGbaywZ_FnrvYNnQegUIwQ50PqFUWKAAZHS2Xal8Og62g"/></div><div class="space-y-4"><img class="rounded-2xl w-full h-80 object-cover shadow-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBwnAWjWu8KgyYAmwC8G3-pEDGsykHqXljXs9i4pVciWc_AEuEvcJkrMy1TUDHMCLjz5_Il4u9qajrbTLzCwBw2WXI2l7JFzYnXGuzuLN2wHY-qWPPSDhWAg8SkAALrohgt_cbkAls4XPY3Rn8Z8yfG6eMOZa9y2HIYf9QHHceEAo0POucaF4noaZM-Xg3EQSa32TGowIVPoVy219zK89L9xvlQ5AijpOMWP7MepLTUSQfPg0h65gWypxWFqi00xYtd4Q3_N90mwQ"/><img class="rounded-2xl w-full h-48 object-cover shadow-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALAfsBkmejGsqJOQTIr3PWhO_Wpu2gtPvbQYA22cgSePSHJl8a_cbBuNMeI6w7ivs4Got_F-6sFl3YSC9v-dJQdifMhDFj2iL_of7veTw2u5RW6UjR1Y0l8yD48P-zmiTLMCFtTZd2cD0cG8kWwEu10guvRRILLEKsSaufRpzSoujNGadVlf-XmIrb3y5BgfCXxSjptpvxGt0m2TqFjwgPsOxAFF3lylyymDdQi3jd-Pr5piPiT1Ar3a-CHMx7Z0uHMLcp2_yh4C4"/></div></div></div></div></section>
+<!-- Stationery Studio Section -->
+<section class="py-32 bg-surface" id="stationery-original"><div class="container mx-auto px-6"><div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"><div class="order-2 lg:order-1 fade-left"><div class="relative inline-block mb-8"><h2 class="text-4xl md:text-5xl font-serif text-primary-container relative z-10">The Stationery Studio</h2><div class="absolute -bottom-2 -right-4 w-full h-4 bg-secondary-container/20 -rotate-1"></div></div><p class="text-lg text-on-surface-variant font-light mb-8 leading-relaxed">In the heart of Sillod, we bridge the gap between digital precision and the timeless feel of paper.</p><div class="space-y-6"><div class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary pt-1">menu_book</span><div><p class="font-bold text-primary">Academic Excellence</p><p class="text-sm text-on-surface-variant">School & College textbooks, premium notebooks.</p></div></div><div class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary pt-1">edit_note</span><div><p class="font-bold text-primary">Executive Supplies</p><p class="text-sm text-on-surface-variant">Fine writing instruments, planners, office essentials.</p></div></div></div></div><div class="order-1 lg:order-2 grid grid-cols-2 gap-4 fade-right"><div class="space-y-4 pt-12"><img class="rounded-2xl w-full h-64 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAspeDwz7FcRmdUhHAkynehlx0LRIxkxybt0UAQrFxuHWVZCQP7rCP3dC5BIJ_TBz2OnbHgWgVWNB86G6Fc5yD6XCyZkEgq8_CKLDaP5l8X44sT2ztZBhLxzqXtWCRA29V76qC6NLhDY8IfIDC46uzJZF063wPw08HPJrzqwIEi53Kp81vhikGcLQxSMoQ5Yt8HlwVuaiJq_PvR6YHPY4tA1DzaLPO__KBKkGMYUEdvwDTQVTfcR3ny2CMEYg6UD-eVP5GBKJjkgyI"/><img class="rounded-2xl w-full h-48 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjTDHckXOckXgLNGHlpKnNo3Ss9fAUANeu4Tdcwd5-7AEqgPDrtHHsskwK4C1gSYRC5u269zqzpCwCZfeqyZpMjqiN2_bPqhjIqhYymy1KQV_K7NO5jiU-35oBT3Y_WBF9uxoBzHhaUP803fm_lCK38SPBfaH4HtmavYNlbzlsrlOPxEh2S_NszNYoINeWPyXIxnsOs6nFQ37UWM7lCHBZfu-OdJyecgPGbaywZ_FnrvYNnQegUIwQ50PqFUWKAAZHS2Xal8Og62g"/></div><div class="space-y-4"><img class="rounded-2xl w-full h-80 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBwnAWjWu8KgyYAmwC8G3-pEDGsykHqXljXs9i4pVciWc_AEuEvcJkrMy1TUDHMCLjz5_Il4u9qajrbTLzCwBw2WXI2l7JFzYnXGuzuLN2wHY-qWPPSDhWAg8SkAALrohgt_cbkAls4XPY3Rn8Z8yfG6eMOZa9y2HIYf9QHHceEAo0POucaF4noaZM-Xg3EQSa32TGowIVPoVy219zK89L9xvlQ5AijpOMWP7MepLTUSQfPg0h65gWypxWFqi00xYtd4Q3_N90mwQ"/><img class="rounded-2xl w-full h-48 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALAfsBkmejGsqJOQTIr3PWhO_Wpu2gtPvbQYA22cgSePSHJl8a_cbBuNMeI6w7ivs4Got_F-6sFl3YSC9v-dJQdifMhDFj2iL_of7veTw2u5RW6UjR1Y0l8yD48P-zmiTLMCFtTZd2cD0cG8kWwEu10guvRRILLEKsSaufRpzSoujNGadVlf-XmIrb3y5BgfCXxSjptpvxGt0m2TqFjwgPsOxAFF3lylyymDdQi3jd-Pr5piPiT1Ar3a-CHMx7Z0uHMLcp2_yh4C4"/></div></div></div></div></section>
 
-<!-- NEW TRUST SECTION (Why Us) -->
-<section class="py-32 bg-surface-container-low" id="trust"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-20"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Our Legacy</span><div class="gold-divider"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container mb-4">Why Sillod Trusts Us</h2><p class="text-on-surface-variant">Built on honesty, skill, and dedication — a name synonymous with quality mobile repair.</p></div><div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20"><div class="text-center p-6 bg-white rounded-2xl shadow-sm"><div class="trust-number" data-target="19">0</div><div class="text-sm font-medium text-gray-600">Years of Experience</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm"><div class="trust-number" data-target="50000">0</div><div class="text-sm font-medium text-gray-600">Devices Repaired</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm"><div class="trust-number" data-target="100">0</div><div class="text-sm font-medium text-gray-600">Models Supported</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm"><div class="trust-number" data-target="365">0</div><div class="text-sm font-medium text-gray-600">Days Open Yearly</div></div></div><div class="trust-timeline max-w-3xl mx-auto"><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">verified</span></div><div><h4 class="font-bold text-primary">Proven Expertise</h4><p class="text-on-surface-variant">With 19+ years in the industry, we have handled every type of mobile issue from basic to complex motherboard repairs.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">groups</span></div><div><h4 class="font-bold text-primary">Trusted by Thousands</h4><p class="text-on-surface-variant">Families, students, and businesses across Sillod rely on us for honest, quality service.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">attach_money</span></div><div><h4 class="font-bold text-primary">Honest & Fair Pricing</h4><p class="text-on-surface-variant">No hidden charges, no unnecessary part replacements. Transparent pricing that builds lasting trust.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">security</span></div><div><h4 class="font-bold text-primary">Quality Parts & Guarantee</h4><p class="text-on-surface-variant">Quality-tested replacement parts and service assurance on all repairs.</p></div></div></div></div></section>
+<!-- Trust Section -->
+<section class="py-32 bg-surface-container-low" id="trust"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-20"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Our Legacy</span><div class="gold-divider" style="width:60px;height:3px;background:linear-gradient(90deg,#7A1F1F,#D4AF37);margin:0 auto 16px;"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container mb-4">Why Sillod Trusts Us</h2><p class="text-on-surface-variant">Built on honesty, skill, and dedication — a name synonymous with quality mobile repair.</p></div><div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20"><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="19">0</div><div class="text-sm font-medium text-gray-600">Years of Experience</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="50000">0</div><div class="text-sm font-medium text-gray-600">Devices Repaired</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="100">0</div><div class="text-sm font-medium text-gray-600">Models Supported</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="365">0</div><div class="text-sm font-medium text-gray-600">Days Open Yearly</div></div></div><div class="trust-timeline max-w-3xl mx-auto"><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">verified</span></div><div><h4 class="font-bold text-primary">Proven Expertise</h4><p class="text-on-surface-variant">With 19+ years in the industry, we have handled every type of mobile issue from basic to complex motherboard repairs.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">groups</span></div><div><h4 class="font-bold text-primary">Trusted by Thousands</h4><p class="text-on-surface-variant">Families, students, and businesses across Sillod rely on us for honest, quality service.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">attach_money</span></div><div><h4 class="font-bold text-primary">Honest & Fair Pricing</h4><p class="text-on-surface-variant">No hidden charges, no unnecessary part replacements. Transparent pricing that builds lasting trust.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">security</span></div><div><h4 class="font-bold text-primary">Quality Parts & Guarantee</h4><p class="text-on-surface-variant">Quality-tested replacement parts and service assurance on all repairs.</p></div></div></div></div></section>
 
-<!-- Enhanced Stationery Features -->
-<section class="py-32 bg-surface" id="stationery-enhanced"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-16"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Beyond Mobile</span><div class="gold-divider"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container">Complete General Store & Bookshop</h2><p class="text-on-surface-variant mt-4">School supplies, college books, office stationery, and everyday essentials under one roof.</p></div><div class="grid md:grid-cols-2 gap-12 items-start"><div class="bg-gradient-to-br from-primary to-primary-container rounded-3xl p-8 text-white"><h3 class="text-3xl font-serif mb-4">Your Local General Store</h3><p class="opacity-90 mb-6">Serving students, families, and businesses in Sillod for over 19 years.</p><ul class="space-y-3"><li class="flex items-center gap-3"><span class="material-symbols-outlined">menu_book</span> School & College Textbooks</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">edit_note</span> Notebooks, Registers & Journals</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">brush</span> Pens, Pencils & Art Materials</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">folder</span> Office Supplies & Files</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">local_convenience_store</span> Daily Essentials & Convenience Items</li></ul></div><div class="grid grid-cols-1 gap-6"><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl"><span class="material-symbols-outlined text-3xl text-primary">school</span><div><h4 class="font-bold">School & College Books</h4><p class="text-sm">Complete range of textbooks, guides, reference materials for all classes.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl"><span class="material-symbols-outlined text-3xl text-primary">library_books</span><div><h4 class="font-bold">Notebooks & Registers</h4><p class="text-sm">High-quality notebooks, practical files, graph books, and drawing sheets.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl"><span class="material-symbols-outlined text-3xl text-primary">palette</span><div><h4 class="font-bold">Art & Craft Supplies</h4><p class="text-sm">Colors, sketch pens, brushes, chart papers, creative materials.</p></div></div></div></div></div></section>
+<!-- Enhanced Stationery & General Store -->
+<section class="py-32 bg-surface" id="stationery-enhanced"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-16"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Beyond Mobile</span><div class="gold-divider" style="width:60px;height:3px;background:linear-gradient(90deg,#7A1F1F,#D4AF37);margin:0 auto 16px;"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container">Complete General Store & Bookshop</h2><p class="text-on-surface-variant mt-4">School supplies, college books, office stationery, and everyday essentials under one roof.</p></div><div class="grid md:grid-cols-2 gap-12 items-start"><div class="bg-gradient-to-br from-primary to-primary-container rounded-3xl p-8 text-white hover-lift"><h3 class="text-3xl font-serif mb-4">Your Local General Store</h3><p class="opacity-90 mb-6">Serving students, families, and businesses in Sillod for over 19 years.</p><ul class="space-y-3"><li class="flex items-center gap-3"><span class="material-symbols-outlined">menu_book</span> School & College Textbooks</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">edit_note</span> Notebooks, Registers & Journals</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">brush</span> Pens, Pencils & Art Materials</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">folder</span> Office Supplies & Files</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">local_convenience_store</span> Daily Essentials & Convenience Items</li></ul></div><div class="grid grid-cols-1 gap-6"><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">school</span><div><h4 class="font-bold">School & College Books</h4><p class="text-sm">Complete range of textbooks, guides, reference materials for all classes.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">library_books</span><div><h4 class="font-bold">Notebooks & Registers</h4><p class="text-sm">High-quality notebooks, practical files, graph books, and drawing sheets.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">palette</span><div><h4 class="font-bold">Art & Craft Supplies</h4><p class="text-sm">Colors, sketch pens, brushes, chart papers, creative materials.</p></div></div></div></div></div></section>
 
 <!-- Location & Contact -->
 <section class="py-32 bg-surface-container-high relative overflow-hidden" id="contact"><div class="container mx-auto px-6 relative z-10"><div class="bg-surface-container-lowest rounded-[2rem] shadow-2xl overflow-hidden"><div class="grid grid-cols-1 lg:grid-cols-2"><div class="p-12 md:p-20 space-y-12"><div><h2 class="text-4xl font-serif text-primary-container mb-4">Visit Our Atelier</h2><p class="text-on-surface-variant font-light">Experience premium service and legacy care in person.</p></div><div class="space-y-8"><div class="flex items-start gap-6"><span class="material-symbols-outlined text-primary text-3xl">location_on</span><div><p class="text-xs font-bold uppercase tracking-widest text-secondary mb-2">Address</p><p class="text-on-surface font-medium">Dr. Zakir Husain Nagar, Near Bus Stand, Annabhau Sathe Chowk, Sillod.</p></div></div><div class="flex items-start gap-6"><span class="material-symbols-outlined text-primary text-3xl">call</span><div><p class="text-xs font-bold uppercase tracking-widest text-secondary mb-2">Direct Lines</p><div class="flex flex-col gap-2"><a class="text-2xl font-serif text-primary hover:text-secondary transition-colors" href="tel:9637775777">9637775777</a><a class="text-2xl font-serif text-primary hover:text-secondary transition-colors" href="tel:8237775777">8237775777</a></div></div></div></div><a class="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-xl hover:bg-primary-container transition-all group" href="https://maps.google.com/?q=Dr.+Zakir+Husain+Nagar+Sillod">Get Directions <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span></a></div><div class="h-[400px] lg:h-full min-h-[500px]"><iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14949.1234567890!2d75.65!3d20.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjDCsDE4JzAwLjAiTiA3NcKwMzknMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy"></iframe></div></div></div></div></section>
 
 <!-- Contact Form & WhatsApp Row -->
-<section class="py-16 bg-surface"><div class="container mx-auto px-6"><div class="grid md:grid-cols-2 gap-12 items-start"><div class="space-y-8"><div class="flex gap-4 items-start"><div class="contact-block-icon bg-primary/10"><span class="material-symbols-outlined text-primary">call</span></div><div><h4 class="font-bold text-primary">Call Us Directly</h4><p class="text-sm">Available during business hours</p><div class="flex gap-3 mt-3"><a href="tel:9637775777" class="px-4 py-2 bg-primary text-white rounded-full text-sm">9637775777</a><a href="tel:8237775777" class="px-4 py-2 bg-primary text-white rounded-full text-sm">8237775777</a></div></div></div><div class="flex gap-4 items-start"><div class="contact-block-icon bg-green-100"><span class="material-symbols-outlined text-green-600">chat</span></div><div><h4 class="font-bold text-primary">WhatsApp Us</h4><p class="text-sm">Quick response on WhatsApp</p><a href="https://wa.me/919637775777?text=Hi%2C%20I%20need%20help%20with%20my%20phone%20repair" target="_blank" class="inline-block mt-3 px-5 py-2 bg-[#25D366] text-white rounded-full text-sm">Chat on WhatsApp</a></div></div><div class="flex gap-4 items-start"><div class="contact-block-icon"><span class="material-symbols-outlined text-primary">schedule</span></div><div><h4 class="font-bold text-primary">Business Hours</h4><p class="text-sm">Monday to Sunday • 9:00 AM – 8:00 PM<br>Open all days including holidays</p></div></div></div><div class="bg-white p-8 rounded-2xl shadow-lg border"><h3 class="text-2xl font-serif text-primary mb-6">Send Repair Request</h3><form id="contactForm"><div class="mb-4"><label class="block text-sm font-medium mb-1">Name</label><input type="text" class="w-full border rounded-lg p-3" id="formName" required></div><div class="mb-4"><label class="block text-sm font-medium mb-1">Phone</label><input type="tel" class="w-full border rounded-lg p-3" id="formPhone" required></div><div class="mb-4"><label class="block text-sm font-medium mb-1">Device Model</label><input type="text" class="w-full border rounded-lg p-3" id="formDevice"></div><div class="mb-4"><label class="block text-sm font-medium mb-1">Issue</label><textarea rows="3" class="w-full border rounded-lg p-3" id="formIssue"></textarea></div><button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary-container transition">Submit Request</button><p id="formMsg" class="text-center text-sm mt-3 text-primary hidden"></p></form></div></div></div></section>
+<section class="py-16 bg-surface"><div class="container mx-auto px-6"><div class="grid md:grid-cols-2 gap-12 items-start"><div class="space-y-8"><div class="flex gap-4 items-start hover-lift"><div class="contact-block-icon bg-primary/10"><span class="material-symbols-outlined text-primary">call</span></div><div><h4 class="font-bold text-primary">Call Us Directly</h4><p class="text-sm">Available during business hours</p><div class="flex gap-3 mt-3"><a href="tel:9637775777" class="px-4 py-2 bg-primary text-white rounded-full text-sm">9637775777</a><a href="tel:8237775777" class="px-4 py-2 bg-primary text-white rounded-full text-sm">8237775777</a></div></div></div><div class="flex gap-4 items-start hover-lift"><div class="contact-block-icon bg-green-100"><span class="material-symbols-outlined text-green-600">chat</span></div><div><h4 class="font-bold text-primary">WhatsApp Us</h4><p class="text-sm">Quick response on WhatsApp</p><a href="https://wa.me/919637775777?text=Hi%2C%20I%20need%20help%20with%20my%20phone%20repair" target="_blank" class="inline-block mt-3 px-5 py-2 bg-[#25D366] text-white rounded-full text-sm">Chat on WhatsApp</a></div></div><div class="flex gap-4 items-start hover-lift"><div class="contact-block-icon"><span class="material-symbols-outlined text-primary">schedule</span></div><div><h4 class="font-bold text-primary">Business Hours</h4><p class="text-sm">Monday to Sunday • 9:00 AM – 8:00 PM<br>Open all days including holidays</p></div></div></div><div class="bg-white p-8 rounded-2xl shadow-lg border hover-lift"><h3 class="text-2xl font-serif text-primary mb-6">Send Repair Request</h3><form id="contactForm"><div class="mb-4"><label class="block text-sm font-medium mb-1">Name</label><input type="text" class="w-full border rounded-lg p-3" id="formName" required></div><div class="mb-4"><label class="block text-sm font-medium mb-1">Phone</label><input type="tel" class="w-full border rounded-lg p-3" id="formPhone" required></div><div class="mb-4"><label class="block text-sm font-medium mb-1">Device Model</label><input type="text" class="w-full border rounded-lg p-3" id="formDevice"></div><div class="mb-4"><label class="block text-sm font-medium mb-1">Issue</label><textarea rows="3" class="w-full border rounded-lg p-3" id="formIssue"></textarea></div><button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary-container transition">Submit Request</button><p id="formMsg" class="text-center text-sm mt-3 text-primary hidden"></p></form></div></div></div></section>
 
 <!-- Footer -->
 <footer class="bg-stone-900 text-stone-300 py-12"><div class="container mx-auto px-6"><div class="grid grid-cols-1 md:grid-cols-4 gap-10"><div><h3 class="text-white font-serif text-xl mb-3">Rajput Mobile Care</h3><p class="text-sm">Sillod's most trusted mobile repair shop with 19+ years of excellence. Quality repairs, premium accessories, and school supplies.</p></div><div><h4 class="font-bold text-white mb-3">Services</h4><ul class="space-y-1 text-sm"><li><a href="#services" class="hover:text-gold-400">Display Repair</a></li><li><a href="#services">Motherboard Repair</a></li><li><a href="#services">Battery Replacement</a></li><li><a href="#services">Software Fix</a></li></ul></div><div><h4 class="font-bold text-white mb-3">Products</h4><ul class="space-y-1 text-sm"><li><a href="#accessories">Mobile Covers</a></li><li><a href="#accessories">Tempered Glass</a></li><li><a href="#accessories">Chargers</a></li><li><a href="#stationery-original">Stationery</a></li></ul></div><div><h4 class="font-bold text-white mb-3">Quick Links</h4><ul class="space-y-1 text-sm"><li><a href="#trust">About Us</a></li><li><a href="#contact">Contact</a></li><li><a href="https://maps.google.com/?q=Dr.+Zakir+Husain+Nagar+Sillod">Directions</a></li></ul></div></div><div class="border-t border-stone-800 mt-8 pt-6 text-center text-xs flex flex-col md:flex-row justify-between"><span>Rajput Mobile Care, Sillod. All rights reserved.</span><span>Trusted since 2005</span></div></div></footer>
@@ -424,69 +479,21 @@
     <a class="flex flex-col items-center text-stone-400" href="#contact"><span class="material-symbols-outlined">contact_support</span><span class="text-[10px]">Contact</span></a>
 </nav>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-    // Enhanced Loader with cinematic progress & particle animation
+    // Loader Progress
     (function() {
         const loader = document.getElementById('loader');
-        const ringFill = document.querySelector('.ring-fill');
         const progressFill = document.getElementById('loaderProgressFill');
         const percentSpan = document.getElementById('loaderPercent');
-        const circumference = 2 * Math.PI * 44;
         let startTime = performance.now();
-        const duration = 2200; // ms
-
-        // particle canvas for cinematic dust/golden sparks
-        const canvas = document.getElementById('loader-canvas');
-        if(canvas) {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            for(let i=0;i<80;i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 2 + 1,
-                    alpha: Math.random() * 0.4 + 0.1,
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.2 + 0.1,
-                    color: `rgba(212, 175, 55, ${Math.random() * 0.5 + 0.2})`
-                });
-            }
-            function drawParticles() {
-                if(!ctx) return;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for(let p of particles) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
-                    ctx.fillStyle = p.color;
-                    ctx.fill();
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if(p.x < 0) p.x = canvas.width;
-                    if(p.x > canvas.width) p.x = 0;
-                    if(p.y < 0) p.y = canvas.height;
-                    if(p.y > canvas.height) p.y = 0;
-                }
-                requestAnimationFrame(drawParticles);
-            }
-            drawParticles();
-            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-        }
-
+        const duration = 2000;
         function updateProgress(now) {
             let elapsed = now - startTime;
             let progress = Math.min(elapsed / duration, 1);
-            let offset = circumference * (1 - progress);
-            if(ringFill) ringFill.style.strokeDashoffset = offset;
             if(progressFill) progressFill.style.width = (progress * 100) + '%';
             if(percentSpan) percentSpan.textContent = Math.floor(progress * 100) + '%';
-            if(progress < 1) {
-                requestAnimationFrame(updateProgress);
-            } else {
-                setTimeout(() => { if(loader) loader.classList.add('hidden'); }, 200);
-            }
+            if(progress < 1) requestAnimationFrame(updateProgress);
+            else setTimeout(() => { if(loader) loader.classList.add('hidden'); }, 200);
         }
         requestAnimationFrame(updateProgress);
     })();
@@ -502,11 +509,16 @@
     if(closeBtn) closeBtn.onclick = () => { mobilePanel.classList.add('opacity-0','pointer-events-none'); mobilePanel.classList.remove('opacity-100','pointer-events-auto'); };
     document.querySelectorAll('.mobile-menu a').forEach(link => { link.addEventListener('click', () => { mobilePanel.classList.add('opacity-0','pointer-events-none'); }); });
 
-    // Reveal animations
-    function revealOnScroll() { document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight * 0.85) el.classList.add('active'); }); }
-    window.addEventListener('scroll', revealOnScroll);
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => el.classList.add('reveal'));
-    setTimeout(revealOnScroll, 200);
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-up').forEach(el => observer.observe(el));
 
     // Counters for trust numbers
     let countersStarted = false;
@@ -533,44 +545,6 @@
     // Contact form handler
     const form = document.getElementById('contactForm');
     if(form) form.onsubmit = (e) => { e.preventDefault(); const msg = document.getElementById('formMsg'); msg.textContent = 'Thank you! We will contact you shortly.'; msg.classList.remove('hidden'); form.reset(); setTimeout(() => msg.classList.add('hidden'), 4000); };
-
-    // Three.js Hero Canvas (unchanged)
-    (function() {
-        const canvas = document.getElementById('hero-canvas'); if(!canvas) return;
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 18;
-        const ambient = new THREE.AmbientLight(0xFFF8F0, 0.4);
-        scene.add(ambient);
-        const d1 = new THREE.DirectionalLight(0xD4AF37, 0.6); d1.position.set(5,5,5); scene.add(d1);
-        const d2 = new THREE.DirectionalLight(0x7A1F1F, 0.3); d2.position.set(-5,-3,3); scene.add(d2);
-        const group = new THREE.Group(); scene.add(group);
-        const octaGeo = new THREE.OctahedronGeometry(2.8,0); const octaMat = new THREE.MeshPhysicalMaterial({ color: 0x7A1F1F, metalness:0.7, roughness:0.2, transparent:true, opacity:0.35, side:THREE.DoubleSide });
-        const octaMesh = new THREE.Mesh(octaGeo, octaMat); group.add(octaMesh);
-        const wireGeo = new THREE.OctahedronGeometry(2.85,0); const wireMat = new THREE.MeshBasicMaterial({ color:0xD4AF37, wireframe:true, transparent:true, opacity:0.5 });
-        const wireMesh = new THREE.Mesh(wireGeo, wireMat); group.add(wireMesh);
-        const icoGeo = new THREE.IcosahedronGeometry(1.4,1); const icoMat = new THREE.MeshPhysicalMaterial({ color:0xD4AF37, metalness:0.9, roughness:0.1, transparent:true, opacity:0.6 });
-        const icoMesh = new THREE.Mesh(icoGeo, icoMat); group.add(icoMesh);
-        const ringGeo = new THREE.TorusGeometry(4.2,0.04,16,100); const ringMat = new THREE.MeshBasicMaterial({ color:0xD4AF37, transparent:true, opacity:0.4 });
-        const ring = new THREE.Mesh(ringGeo, ringMat); ring.rotation.x = Math.PI/3; group.add(ring);
-        const spheres = []; for(let i=0;i<12;i++){ let sMesh = new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8), new THREE.MeshPhysicalMaterial({ color:i%2===0?0xD4AF37:0x7A1F1F, metalness:0.8, emissiveIntensity:0.2 })); let radius=3.8+Math.random()*1.5, speed=0.2+Math.random()*0.3, offset=Math.random()*Math.PI*2; spheres.push({ mesh:sMesh, radius, speed, offset }); group.add(sMesh); }
-        let time = 0;
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.012;
-            group.rotation.y = time * 0.12;
-            group.rotation.x = Math.sin(time*0.08)*0.12;
-            octaMesh.rotation.y = time*0.15; wireMesh.rotation.y = -time*0.15; icoMesh.rotation.x = time*0.3; ring.rotation.z = time*0.2;
-            spheres.forEach(s => { let ang = time * s.speed + s.offset; s.mesh.position.x = Math.cos(ang)*s.radius; s.mesh.position.y = Math.sin(ang)*s.radius*0.8; s.mesh.position.z = Math.sin(ang)*0.8; });
-            renderer.render(scene, camera);
-        }
-        animate();
-        window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); if(window.innerWidth<768) camera.position.z=24; else if(window.innerWidth<1024) camera.position.z=20; else camera.position.z=18; });
-        if(window.innerWidth>=1024) group.position.set(5,0,0); else group.position.set(0,-2,0);
-    })();
 </script>
 </body>
 </html>
