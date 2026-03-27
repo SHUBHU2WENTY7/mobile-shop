@@ -80,7 +80,7 @@
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
         
-        /* Apple-level animations & glass morphism */
+        /* Apple‑level glass morphism & animations */
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -125,7 +125,7 @@
             transform: scale(1);
         }
         
-        /* Hover effects for cards */
+        /* Hover effects */
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -159,7 +159,7 @@
             overflow: hidden;
         }
         
-        /* Apple-style loader */
+        /* Apple‑inspired cinematic loader */
         #loader {
             position: fixed;
             inset: 0;
@@ -180,24 +180,35 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .loader-logo {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 600;
             letter-spacing: -0.02em;
             background: linear-gradient(135deg, #7A1F1F, #D4AF37);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        .loader-sub {
+            font-size: 0.9rem;
+            color: #6b6b6b;
+            letter-spacing: 1px;
             margin-bottom: 2rem;
         }
         .loader-progress {
-            width: 100%;
+            width: 200px;
             height: 2px;
             background: #e5e5e5;
             border-radius: 2px;
             overflow: hidden;
-            margin: 1rem 0;
+            margin: 1rem auto;
         }
         .loader-progress-fill {
             width: 0%;
@@ -206,39 +217,13 @@
             transition: width 0.1s linear;
         }
         .loader-percent {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            color: #6b6b6b;
+            color: #999;
             margin-top: 0.5rem;
         }
         
-        /* Additional animations */
-        @keyframes subtlePulse {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-        .animate-subtle {
-            animation: subtlePulse 2s infinite alternate;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #7A1F1F;
-            border-radius: 4px;
-        }
-        
-        /* Smooth scroll behavior */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Number counters */
+        /* Trust elements */
         .trust-number {
             font-family: 'Playfair Display', serif;
             font-size: 2.8rem;
@@ -283,7 +268,7 @@
             font-size: 24px;
         }
         
-        /* Contact icons */
+        /* Contact & other cards */
         .contact-block-icon, .stat-card-icon, .location-card-icon {
             background: linear-gradient(135deg, rgba(122,31,31,0.08), rgba(212,175,55,0.08));
             border-radius: 12px;
@@ -338,14 +323,38 @@
             width: 0;
             transition: width 0.1s linear;
         }
+        .gold-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #7A1F1F, #D4AF37);
+            border-radius: 3px;
+            margin: 0 auto 16px;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #7A1F1F;
+            border-radius: 4px;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
 
-<!-- Apple-style Luxury Loader -->
+<!-- Apple‑inspired Cinematic Loader -->
 <div id="loader">
     <div class="loader-container">
         <div class="loader-logo">Rajput Mobile Care</div>
+        <div class="loader-sub">Craftsmanship · Precision · Trust</div>
         <div class="loader-progress">
             <div class="loader-progress-fill" id="loaderProgressFill"></div>
         </div>
@@ -371,15 +380,15 @@
     <span class="material-symbols-outlined text-stone-600 hidden md:block">account_circle</span>
 </nav>
 
-<!-- Mobile slide menu -->
+<!-- Mobile slide menu (auto‑close on link click) -->
 <div class="mobile-menu fixed inset-0 bg-white/95 backdrop-blur-lg z-50 flex flex-col items-center justify-center gap-6 transition-all duration-300 opacity-0 pointer-events-none" id="mobileMenuPanel">
     <button class="absolute top-6 right-6 text-2xl text-stone-800" id="closeMobileMenu">&times;</button>
-    <a href="#" class="text-xl font-serif text-primary">Home</a>
-    <a href="#services" class="text-xl font-serif text-primary">Services</a>
-    <a href="#accessories" class="text-xl font-serif text-primary">Accessories</a>
-    <a href="#trust" class="text-xl font-serif text-primary">Why Us</a>
-    <a href="#contact" class="text-xl font-serif text-primary">Contact</a>
-    <a href="tel:9637775777" class="mt-4 px-8 py-3 bg-primary text-white rounded-full">Call Now</a>
+    <a href="#" class="text-xl font-serif text-primary mobile-link">Home</a>
+    <a href="#services" class="text-xl font-serif text-primary mobile-link">Services</a>
+    <a href="#accessories" class="text-xl font-serif text-primary mobile-link">Accessories</a>
+    <a href="#trust" class="text-xl font-serif text-primary mobile-link">Why Us</a>
+    <a href="#contact" class="text-xl font-serif text-primary mobile-link">Contact</a>
+    <a href="tel:9637775777" class="mt-4 px-8 py-3 bg-primary text-white rounded-full mobile-link">Call Now</a>
 </div>
 
 <!-- Cinematic Hero Section with Continuous Video Background -->
@@ -390,7 +399,7 @@
     </video>
     <div class="hero-overlay"></div>
     <div class="container mx-auto px-6 relative z-10 text-center max-w-5xl">
-        <span class="inline-block px-4 py-1 mb-6 border border-white/30 rounded-full text-[10px] uppercase tracking-[0.3em] text-white font-semibold backdrop-blur-sm">
+        <span class="inline-block px-4 py-1 mb-6 border border-white/30 rounded-full text-[10px] uppercase tracking-[0.3em] text-white font-semibold backdrop-blur-sm fade-up">
             Est. 2005 • The Atelier of Repair
         </span>
         <h1 class="text-5xl md:text-8xl font-serif text-white leading-[1.1] tracking-tight mb-8 drop-shadow-lg fade-up">
@@ -454,10 +463,10 @@
 <section class="py-32 bg-surface" id="stationery-original"><div class="container mx-auto px-6"><div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"><div class="order-2 lg:order-1 fade-left"><div class="relative inline-block mb-8"><h2 class="text-4xl md:text-5xl font-serif text-primary-container relative z-10">The Stationery Studio</h2><div class="absolute -bottom-2 -right-4 w-full h-4 bg-secondary-container/20 -rotate-1"></div></div><p class="text-lg text-on-surface-variant font-light mb-8 leading-relaxed">In the heart of Sillod, we bridge the gap between digital precision and the timeless feel of paper.</p><div class="space-y-6"><div class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary pt-1">menu_book</span><div><p class="font-bold text-primary">Academic Excellence</p><p class="text-sm text-on-surface-variant">School & College textbooks, premium notebooks.</p></div></div><div class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary pt-1">edit_note</span><div><p class="font-bold text-primary">Executive Supplies</p><p class="text-sm text-on-surface-variant">Fine writing instruments, planners, office essentials.</p></div></div></div></div><div class="order-1 lg:order-2 grid grid-cols-2 gap-4 fade-right"><div class="space-y-4 pt-12"><img class="rounded-2xl w-full h-64 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAspeDwz7FcRmdUhHAkynehlx0LRIxkxybt0UAQrFxuHWVZCQP7rCP3dC5BIJ_TBz2OnbHgWgVWNB86G6Fc5yD6XCyZkEgq8_CKLDaP5l8X44sT2ztZBhLxzqXtWCRA29V76qC6NLhDY8IfIDC46uzJZF063wPw08HPJrzqwIEi53Kp81vhikGcLQxSMoQ5Yt8HlwVuaiJq_PvR6YHPY4tA1DzaLPO__KBKkGMYUEdvwDTQVTfcR3ny2CMEYg6UD-eVP5GBKJjkgyI"/><img class="rounded-2xl w-full h-48 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjTDHckXOckXgLNGHlpKnNo3Ss9fAUANeu4Tdcwd5-7AEqgPDrtHHsskwK4C1gSYRC5u269zqzpCwCZfeqyZpMjqiN2_bPqhjIqhYymy1KQV_K7NO5jiU-35oBT3Y_WBF9uxoBzHhaUP803fm_lCK38SPBfaH4HtmavYNlbzlsrlOPxEh2S_NszNYoINeWPyXIxnsOs6nFQ37UWM7lCHBZfu-OdJyecgPGbaywZ_FnrvYNnQegUIwQ50PqFUWKAAZHS2Xal8Og62g"/></div><div class="space-y-4"><img class="rounded-2xl w-full h-80 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBwnAWjWu8KgyYAmwC8G3-pEDGsykHqXljXs9i4pVciWc_AEuEvcJkrMy1TUDHMCLjz5_Il4u9qajrbTLzCwBw2WXI2l7JFzYnXGuzuLN2wHY-qWPPSDhWAg8SkAALrohgt_cbkAls4XPY3Rn8Z8yfG6eMOZa9y2HIYf9QHHceEAo0POucaF4noaZM-Xg3EQSa32TGowIVPoVy219zK89L9xvlQ5AijpOMWP7MepLTUSQfPg0h65gWypxWFqi00xYtd4Q3_N90mwQ"/><img class="rounded-2xl w-full h-48 object-cover shadow-xl hover-lift" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALAfsBkmejGsqJOQTIr3PWhO_Wpu2gtPvbQYA22cgSePSHJl8a_cbBuNMeI6w7ivs4Got_F-6sFl3YSC9v-dJQdifMhDFj2iL_of7veTw2u5RW6UjR1Y0l8yD48P-zmiTLMCFtTZd2cD0cG8kWwEu10guvRRILLEKsSaufRpzSoujNGadVlf-XmIrb3y5BgfCXxSjptpvxGt0m2TqFjwgPsOxAFF3lylyymDdQi3jd-Pr5piPiT1Ar3a-CHMx7Z0uHMLcp2_yh4C4"/></div></div></div></div></section>
 
 <!-- Trust Section -->
-<section class="py-32 bg-surface-container-low" id="trust"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-20"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Our Legacy</span><div class="gold-divider" style="width:60px;height:3px;background:linear-gradient(90deg,#7A1F1F,#D4AF37);margin:0 auto 16px;"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container mb-4">Why Sillod Trusts Us</h2><p class="text-on-surface-variant">Built on honesty, skill, and dedication — a name synonymous with quality mobile repair.</p></div><div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20"><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="19">0</div><div class="text-sm font-medium text-gray-600">Years of Experience</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="50000">0</div><div class="text-sm font-medium text-gray-600">Devices Repaired</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="100">0</div><div class="text-sm font-medium text-gray-600">Models Supported</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="365">0</div><div class="text-sm font-medium text-gray-600">Days Open Yearly</div></div></div><div class="trust-timeline max-w-3xl mx-auto"><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">verified</span></div><div><h4 class="font-bold text-primary">Proven Expertise</h4><p class="text-on-surface-variant">With 19+ years in the industry, we have handled every type of mobile issue from basic to complex motherboard repairs.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">groups</span></div><div><h4 class="font-bold text-primary">Trusted by Thousands</h4><p class="text-on-surface-variant">Families, students, and businesses across Sillod rely on us for honest, quality service.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">attach_money</span></div><div><h4 class="font-bold text-primary">Honest & Fair Pricing</h4><p class="text-on-surface-variant">No hidden charges, no unnecessary part replacements. Transparent pricing that builds lasting trust.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">security</span></div><div><h4 class="font-bold text-primary">Quality Parts & Guarantee</h4><p class="text-on-surface-variant">Quality-tested replacement parts and service assurance on all repairs.</p></div></div></div></div></section>
+<section class="py-32 bg-surface-container-low" id="trust"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-20"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Our Legacy</span><div class="gold-divider"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container mb-4">Why Sillod Trusts Us</h2><p class="text-on-surface-variant">Built on honesty, skill, and dedication — a name synonymous with quality mobile repair.</p></div><div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20"><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="19">0</div><div class="text-sm font-medium text-gray-600">Years of Experience</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="50000">0</div><div class="text-sm font-medium text-gray-600">Devices Repaired</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="100">0</div><div class="text-sm font-medium text-gray-600">Models Supported</div></div><div class="text-center p-6 bg-white rounded-2xl shadow-sm hover-lift"><div class="trust-number" data-target="365">0</div><div class="text-sm font-medium text-gray-600">Days Open Yearly</div></div></div><div class="trust-timeline max-w-3xl mx-auto"><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">verified</span></div><div><h4 class="font-bold text-primary">Proven Expertise</h4><p class="text-on-surface-variant">With 19+ years in the industry, we have handled every type of mobile issue from basic to complex motherboard repairs.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">groups</span></div><div><h4 class="font-bold text-primary">Trusted by Thousands</h4><p class="text-on-surface-variant">Families, students, and businesses across Sillod rely on us for honest, quality service.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">attach_money</span></div><div><h4 class="font-bold text-primary">Honest & Fair Pricing</h4><p class="text-on-surface-variant">No hidden charges, no unnecessary part replacements. Transparent pricing that builds lasting trust.</p></div></div><div class="timeline-item"><div class="timeline-dot"><span class="material-symbols-outlined">security</span></div><div><h4 class="font-bold text-primary">Quality Parts & Guarantee</h4><p class="text-on-surface-variant">Quality-tested replacement parts and service assurance on all repairs.</p></div></div></div></div></section>
 
 <!-- Enhanced Stationery & General Store -->
-<section class="py-32 bg-surface" id="stationery-enhanced"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-16"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Beyond Mobile</span><div class="gold-divider" style="width:60px;height:3px;background:linear-gradient(90deg,#7A1F1F,#D4AF37);margin:0 auto 16px;"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container">Complete General Store & Bookshop</h2><p class="text-on-surface-variant mt-4">School supplies, college books, office stationery, and everyday essentials under one roof.</p></div><div class="grid md:grid-cols-2 gap-12 items-start"><div class="bg-gradient-to-br from-primary to-primary-container rounded-3xl p-8 text-white hover-lift"><h3 class="text-3xl font-serif mb-4">Your Local General Store</h3><p class="opacity-90 mb-6">Serving students, families, and businesses in Sillod for over 19 years.</p><ul class="space-y-3"><li class="flex items-center gap-3"><span class="material-symbols-outlined">menu_book</span> School & College Textbooks</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">edit_note</span> Notebooks, Registers & Journals</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">brush</span> Pens, Pencils & Art Materials</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">folder</span> Office Supplies & Files</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">local_convenience_store</span> Daily Essentials & Convenience Items</li></ul></div><div class="grid grid-cols-1 gap-6"><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">school</span><div><h4 class="font-bold">School & College Books</h4><p class="text-sm">Complete range of textbooks, guides, reference materials for all classes.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">library_books</span><div><h4 class="font-bold">Notebooks & Registers</h4><p class="text-sm">High-quality notebooks, practical files, graph books, and drawing sheets.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">palette</span><div><h4 class="font-bold">Art & Craft Supplies</h4><p class="text-sm">Colors, sketch pens, brushes, chart papers, creative materials.</p></div></div></div></div></div></section>
+<section class="py-32 bg-surface" id="stationery-enhanced"><div class="container mx-auto px-6"><div class="text-center max-w-3xl mx-auto mb-16"><span class="text-xs font-bold text-secondary uppercase tracking-[0.4em]">Beyond Mobile</span><div class="gold-divider"></div><h2 class="text-4xl md:text-5xl font-serif text-primary-container">Complete General Store & Bookshop</h2><p class="text-on-surface-variant mt-4">School supplies, college books, office stationery, and everyday essentials under one roof.</p></div><div class="grid md:grid-cols-2 gap-12 items-start"><div class="bg-gradient-to-br from-primary to-primary-container rounded-3xl p-8 text-white hover-lift"><h3 class="text-3xl font-serif mb-4">Your Local General Store</h3><p class="opacity-90 mb-6">Serving students, families, and businesses in Sillod for over 19 years.</p><ul class="space-y-3"><li class="flex items-center gap-3"><span class="material-symbols-outlined">menu_book</span> School & College Textbooks</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">edit_note</span> Notebooks, Registers & Journals</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">brush</span> Pens, Pencils & Art Materials</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">folder</span> Office Supplies & Files</li><li class="flex items-center gap-3"><span class="material-symbols-outlined">local_convenience_store</span> Daily Essentials & Convenience Items</li></ul></div><div class="grid grid-cols-1 gap-6"><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">school</span><div><h4 class="font-bold">School & College Books</h4><p class="text-sm">Complete range of textbooks, guides, reference materials for all classes.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">library_books</span><div><h4 class="font-bold">Notebooks & Registers</h4><p class="text-sm">High-quality notebooks, practical files, graph books, and drawing sheets.</p></div></div><div class="flex gap-4 p-5 bg-surface-container-lowest rounded-2xl hover-lift"><span class="material-symbols-outlined text-3xl text-primary">palette</span><div><h4 class="font-bold">Art & Craft Supplies</h4><p class="text-sm">Colors, sketch pens, brushes, chart papers, creative materials.</p></div></div></div></div></div></section>
 
 <!-- Location & Contact -->
 <section class="py-32 bg-surface-container-high relative overflow-hidden" id="contact"><div class="container mx-auto px-6 relative z-10"><div class="bg-surface-container-lowest rounded-[2rem] shadow-2xl overflow-hidden"><div class="grid grid-cols-1 lg:grid-cols-2"><div class="p-12 md:p-20 space-y-12"><div><h2 class="text-4xl font-serif text-primary-container mb-4">Visit Our Atelier</h2><p class="text-on-surface-variant font-light">Experience premium service and legacy care in person.</p></div><div class="space-y-8"><div class="flex items-start gap-6"><span class="material-symbols-outlined text-primary text-3xl">location_on</span><div><p class="text-xs font-bold uppercase tracking-widest text-secondary mb-2">Address</p><p class="text-on-surface font-medium">Dr. Zakir Husain Nagar, Near Bus Stand, Annabhau Sathe Chowk, Sillod.</p></div></div><div class="flex items-start gap-6"><span class="material-symbols-outlined text-primary text-3xl">call</span><div><p class="text-xs font-bold uppercase tracking-widest text-secondary mb-2">Direct Lines</p><div class="flex flex-col gap-2"><a class="text-2xl font-serif text-primary hover:text-secondary transition-colors" href="tel:9637775777">9637775777</a><a class="text-2xl font-serif text-primary hover:text-secondary transition-colors" href="tel:8237775777">8237775777</a></div></div></div></div><a class="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-xl hover:bg-primary-container transition-all group" href="https://maps.google.com/?q=Dr.+Zakir+Husain+Nagar+Sillod">Get Directions <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span></a></div><div class="h-[400px] lg:h-full min-h-[500px]"><iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14949.1234567890!2d75.65!3d20.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjDCsDE4JzAwLjAiTiA3NcKwMzknMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy"></iframe></div></div></div></div></section>
@@ -473,10 +482,10 @@
 
 <!-- BottomNavBar (Mobile Only) -->
 <nav class="fixed bottom-0 left-0 w-full z-50 bg-stone-50/95 backdrop-blur-lg shadow-[0_-10px_40px_rgba(0,0,0,0.04)] flex justify-around items-center pt-3 pb-6 px-4 md:hidden rounded-t-3xl border-t border-stone-200/20">
-    <a class="flex flex-col items-center justify-center text-red-900 font-bold" href="#"><span class="material-symbols-outlined">home</span><span class="text-[10px]">Home</span></a>
-    <a class="flex flex-col items-center text-stone-400" href="#services"><span class="material-symbols-outlined">build</span><span class="text-[10px]">Services</span></a>
-    <a class="flex flex-col items-center text-stone-400" href="#accessories"><span class="material-symbols-outlined">headset_mic</span><span class="text-[10px]">Access</span></a>
-    <a class="flex flex-col items-center text-stone-400" href="#contact"><span class="material-symbols-outlined">contact_support</span><span class="text-[10px]">Contact</span></a>
+    <a class="flex flex-col items-center justify-center text-red-900 font-bold mobile-link" href="#"><span class="material-symbols-outlined">home</span><span class="text-[10px]">Home</span></a>
+    <a class="flex flex-col items-center text-stone-400 mobile-link" href="#services"><span class="material-symbols-outlined">build</span><span class="text-[10px]">Services</span></a>
+    <a class="flex flex-col items-center text-stone-400 mobile-link" href="#accessories"><span class="material-symbols-outlined">headset_mic</span><span class="text-[10px]">Access</span></a>
+    <a class="flex flex-col items-center text-stone-400 mobile-link" href="#contact"><span class="material-symbols-outlined">contact_support</span><span class="text-[10px]">Contact</span></a>
 </nav>
 
 <script>
@@ -501,13 +510,30 @@
     // Scroll progress
     window.addEventListener('scroll', () => { let st = window.scrollY, dh = document.documentElement.scrollHeight - window.innerHeight; document.getElementById('scroll-progress').style.width = (st / dh) * 100 + '%'; });
 
-    // Mobile menu toggle
+    // Mobile menu toggle & auto‑close on link click
     const menuBtn = document.getElementById('menuToggleBtn');
     const mobilePanel = document.getElementById('mobileMenuPanel');
     const closeBtn = document.getElementById('closeMobileMenu');
-    if(menuBtn) menuBtn.onclick = () => { mobilePanel.classList.remove('opacity-0','pointer-events-none'); mobilePanel.classList.add('opacity-100','pointer-events-auto'); };
-    if(closeBtn) closeBtn.onclick = () => { mobilePanel.classList.add('opacity-0','pointer-events-none'); mobilePanel.classList.remove('opacity-100','pointer-events-auto'); };
-    document.querySelectorAll('.mobile-menu a').forEach(link => { link.addEventListener('click', () => { mobilePanel.classList.add('opacity-0','pointer-events-none'); }); });
+    const allMobileLinks = document.querySelectorAll('.mobile-link');
+    
+    function closeMobileMenu() {
+        mobilePanel.classList.add('opacity-0', 'pointer-events-none');
+        mobilePanel.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+    function openMobileMenu() {
+        mobilePanel.classList.remove('opacity-0', 'pointer-events-none');
+        mobilePanel.classList.add('opacity-100', 'pointer-events-auto');
+    }
+    if(menuBtn) menuBtn.onclick = openMobileMenu;
+    if(closeBtn) closeBtn.onclick = closeMobileMenu;
+    
+    // Close menu when any link inside mobile panel is clicked
+    allMobileLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            closeMobileMenu();
+            // allow navigation to proceed naturally (href works)
+        });
+    });
 
     // Intersection Observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
